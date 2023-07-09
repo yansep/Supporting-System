@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Lokasi;
+use App\Models\Lokasi_estate;
 use App\Models\recruitsku;
+use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -30,7 +33,11 @@ class AdminController extends Controller
     public function create()
     {
         return view ('dashboard.admin.create',[
-            'users' => User::all()
+            'users' => User::all(),
+            'roles'=> Role::all(),
+            'lokasis' => Lokasi::all(),
+            'estates' => Lokasi_estate::all(),
+
         ]);//
     }
 
@@ -44,17 +51,22 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required|max:255',
-            'email' => 'required|max:255|unique:users',
+            'npk' => 'required|max:7|unique:users',
             'password' => 'required|max:255',
-            'status' => 'required|max:255',
             'PT' => 'max:255',
             'estate' => 'max:255',
         ]);
 
        // $validatedData['password'] = bcrypt($validatedData['password']);
        $validatedData['password'] = Hash::make($validatedData['password']);
+       $validatedData['role_id'] = $request->role_id;
+       $validatedData['lokasi_id'] = $request->lokasi_id;
+        $validatedData['lokasi_estate_id'] = $request->lokasi_estate_id;
+
         User::create($validatedData);
         return redirect('/dashboard/admin')->with('success', 'Berhasil di tambahkan!');
+
+
     }
 
     /**
@@ -76,8 +88,12 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $users=User::find($id);
-        return view('dashboard.admin.edit',compact('users'));
+        return view ('dashboard.admin.edit',[
+            'users' => User::find($id),
+            'roles'=> Role::all(),
+            'lokasis' => Lokasi::all(),
+            'lokasi_estates' => Lokasi_estate::all(),
+        ]);
     }
 
     /**
@@ -91,14 +107,14 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required|max:255',
-            'email' => 'required|max:255',
-            'status' => 'required|max:255',
+            'npk' => 'required|max:7',
             'password'=> 'required|max:255',
-            'status' => 'required|max:255',
             'PT' => 'max:255',
             'estate' => 'max:255',
         ]);
-
+        $validatedData['lokasi_id'] = $request->lokasi_id;
+        $validatedData['role_id'] = $request->role_id;
+        $validatedData['lokasi_estate_id'] = $request->lokasi_estate_id;
         $users= User::find($id)->update($validatedData);
         return redirect('/dashboard/admin')->with('success', 'Berhasil di Ubah!');
     }

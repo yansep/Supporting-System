@@ -1,16 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\inputskucontroller;
-use App\Http\Controllers\hrController;
-use App\Http\Controllers\hrheadcontroller;
-use App\Http\Controllers\skucontroller;
-use App\Http\Controllers\gacontroller;
+use App\Http\Controllers\PtController;
 use App\Http\Controllers\cmacontroller;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\EstateController;
 use App\Http\Controllers\ChangePasswordController;
 
 /*
@@ -24,33 +21,30 @@ use App\Http\Controllers\ChangePasswordController;
 |
 */
 
-
 Route::get('/', [LoginController::class, 'index']);
 Route::get('/login', function () {
     return view('login');
 });
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest');
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
-Route::get('/login', [LoginController::class, 'index']);//->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'authenticate']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::resource('/home', HomeController::class)->middleware('auth');
 
-Route::get('/home', function(){
-    return view('home.home');
-})->middleware('auth');//pembuatan method auth
-Route::resource('/dashboard/inputsku/create', inputskucontroller::class)->middleware('auth');
+//file pdf
+Route::resource('files', FileController::class)->middleware('auth');
+Route::get('files/{file}/download', [FileController::class, 'download'])->name('files.download')->middleware('auth');
+// Route::post('files/download', [FileController::class, 'downloadSelected'])->name('files.downloadSelected');
+Route::post('files/download', [FileController::class, 'downloadSelected'])->name('files.downloadSelected')->middleware('auth');
+Route::get('files/deletePDF/{id}', [FileController::class, 'deletePDF']);
 
-Route::get('/trial/pengunjung', [HomeController::class, 'trialPengunjung']);
-Route::get('/karyawan', [KaryawanController::class, 'index']);
-
-Route::resource('/dashboard/hr', hrController::class)->middleware('auth');
-Route::resource('/dashboard/sku', skucontroller::class)->middleware('auth');
-Route::resource('/dashboard/ga', gacontroller::class)->middleware('auth');
-Route::resource('/dashboard/hrhead', hrheadcontroller::class)->middleware('auth');
-Route::resource('/dashboard/cma', cmacontroller::class)->middleware('auth');
+//akses admin
 Route::resource('/dashboard/admin', AdminController::class)->middleware('auth');
+Route::resource('/dashboard/PT', PtController::class)->middleware('auth');
+Route::resource('/dashboard/estate', EstateController::class)->middleware('auth');
+Route::get('change-password', [ChangePasswordController::class, 'index'])->middleware('auth');
+Route::post('change-password', [ChangePasswordController::class, 'changePassword'])->name('change.password')->middleware('auth');
 
-Route::get('/dashboard/print', [hrController::class, 'print'])->middleware('auth');
-Route::get('/dashboard/downloadpdf/{id}', [hrController::class, 'downloadpdf'])->middleware('auth');
+// Route::get('/home', function(){return view('home.home');})->middleware('auth');//pembuatan method auth
 
-Route::get('change-password', [ChangePasswordController::class, 'index']);
-Route::post('change-password', [ChangePasswordController::class, 'changePassword'])->name('change.password');
+

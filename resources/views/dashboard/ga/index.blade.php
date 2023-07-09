@@ -36,35 +36,50 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <label>PT</label>
-                    <select id="filter-organisasi" class="form-control">
-                    <option value="">Pilih PT</option>
+            <form class="row row-cols-lg-auto g-1">
+                @csrf
+                <div class="col">
+                    <select class="form-control select2" style="width: 100%;" aria-label="Default select example"
+                    name="lokasi_estate_id">
+                        <option value="">All Estate</option>
+                        @foreach ($lokasi_estates as $lokasi_estate)
+                        @if ($lokasi_estate_id==$lokasi_estate->id)
+                            <option value="{{ $lokasi_estate->id }}" selected>{{ $lokasi_estate->nama }}</option>
+                        @else
+                            <option value="{{ $lokasi_estate->id }}">{{ $lokasi_estate->nama }}</option>
+                        @endif
+                        @endforeach
                     </select>
                 </div>
 
-                <div class="col-md-4">
-                    <label>ESTATE</label>
-                    <select id="filter-organisasi" class="form-control">
-                    <option value="">Pilih Estate</option>
-                    <option value="1">Estate Jabdan 1</option>
-                    <option value="2">Estate Jabdan 2</option>
+                <div class="col">
+                    <select class="form-control select2" style="width: 100%;" aria-label="Default select example"
+                        name="statusgahead">
+                        <option value="">All Status</option>
+                        <option value="Approve">Sudah Approve</option>
+                        <option value="-">Belum Approve</option>
                     </select>
                 </div>
 
-                <div class="col-md-4">
-                    <label>Approve</label>
-                    <select id="filter-organisasi" class="form-control">
-                    <option value="">Pilih Estate</option>
-                    <option value="1">Estate Jabdan 1</option>
-                    <option value="2">Estate Jabdan 2</option>
-                    </select>
+                <div class="col">
+                    <input class="form-control" type="date" name="start" value="{{ $start }}"/>
                 </div>
-            </div>
+
+                <div class="col">
+                    <input class="form-control" type="date" name="end" value="{{ $end }}"/>
+                </div><br>
+
+                <div class="col">
+                    <input type="text" class="form-control"  name="q" placeholder="Search .." value="{{ $q }}" />
+                </div>
+
+                <div class="col">
+                    <button class="btn btn-success">Refresh</button>
+               </div>
+            </form>
             <div class="divider"></div>
 
-            <div class="row justify-content-end">
+            {{-- <div class="row justify-content-end">
                 <div class="col-sm-10 col-md-6">
                     <div id="example1_filter" class="dataTables_filter">
                 <form action="?" class="col-auto ms-auto">
@@ -76,7 +91,8 @@
                 </form>
                     </div>
                 </div>
-            </div><br>
+            </div> --}}
+            <br>
 
           <table id="example1" class="table table-bordered table-striped" style = text-align:center role="table" aria-busy="false" aria-colcount="14">
             <thead>
@@ -86,25 +102,28 @@
               <th scope="col">NIK</th>
               <th scope="col">NAMA</th>
               <th scope="col">Keterangan</th>
-              <th scope="col">Total</th>
-              <th colspan="2" scope="col">Proses</th>
-              <th scope="col">Proses CMA</th>
+              <th scope="col">ESTATE</th>
+              {{-- <th colspan="2" scope="col">Proses</th> --}}
+              <th scope="col">HC Staff</th>
+              <th scope="col">GA HEAD</th>
+              <th scope="col">HC HEAD</th>
+              <th scope="col">PGS</th>
+              <th scope="col">CMA</th>
+              <th scope="col">Tgl Verifikasi Terakhir</th>
               <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
 
                 @foreach($recruitskus as $key => $recruitsku)
-    @if($recruitsku->status == "Approve" && $recruitsku->ketklaim == "Invoice" ||
-                $recruitsku->status == "Prosess di Reaject Oleh HR Staff" && $recruitsku->ketklaim == "Invoice")
-
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $recruitskus->firstItem() + $key}}</td>
                     <td style = text-align:left>{{ $recruitsku->nik }}</td>
                     <td style = text-align:left>{{ $recruitsku->nama }}</td>
                     <td style = text-align:left>{{ $recruitsku->ketklaim }}</td>
-                    <td style = text-align:left>@currency ($recruitsku->kolom1 + $recruitsku->kolom2) </td>
-                    <td>
+                    <td style = text-align:left>{{ $recruitsku->user->estate }}</td>
+
+                    {{-- <td>
                         @if ($recruitsku->status == null && $recruitsku->statuspgs == null
                                 && $recruitsku->statushrhead == null && $recruitsku->statusgahead == null
                                 && $recruitsku->statuscma == null)
@@ -119,7 +138,7 @@
                            Progres Di Hr Staff (Pemberian NPK)
 
                            @elseif($recruitsku->status == "Approve" && $recruitsku->statusgahead == "Approve"
-                           && $recruitsku->ketklaim == "Invoice" && $recruitsku->npk == null)
+                           && $recruitsku->ketklaim == "Invoice")
                            Progres Di Hr Staff (Pemberian NPK)
 
                            @elseif($recruitsku->status == "Approve" && $recruitsku->statushrhead == "Approve"
@@ -130,31 +149,31 @@
                            && $recruitsku->statushrhead == null)
                            Progres Di HR Head
 
-                           @elseif($recruitsku->status == "Prosess di Reaject Oleh HR Staff")
+                           @elseif($recruitsku->status == "Reject")
                            Prosess di Reject Oleh HR Staff
 
-                           @elseif($recruitsku->statusgahead == "Prosess di Reaject GA")
+                           @elseif($recruitsku->statusgahead == "Reject")
                            Prosess di Reject GA
 
-                           @elseif($recruitsku->statushrhead == "Prosess di Reaject HR Head")
+                           @elseif($recruitsku->statushrhead == "Reject")
                            Prosess di Reaject HR Head
 
-                           @elseif($recruitsku->statuspgs == "Prosess di Reaject PGS")
+                           @elseif($recruitsku->statuspgs == "Reject")
                            Prosess di Reaject PGS
 
-                           @elseif($recruitsku->statuscma == "REJECT")
+                           @elseif($recruitsku->statuscma == "Reject")
                            Prosess di Reaject CMA
 
                            @elseif($recruitsku->status == "Approve" && $recruitsku->statushrhead == "Approve"
                            && $recruitsku->statuspgs == null  && $recruitsku->statuscma == null)
                            Progres Di PGS
 
-                           @elseif($recruitsku->statuspgs == "HR Staff memproses Lampiran"
+                           @elseif($recruitsku->statuspgs == "Approve"
                            && $recruitsku->kolom1 == null)
-                           {{$recruitsku->statuspgs}}
+                           Progres Di HR Staff Proses Lampiran
 
-                           @elseif($recruitsku->status == "Approve" && $recruitsku->statushrhead == "Approve"
-                           && $recruitsku->statuspgs == "HR Staff memproses Lampiran"  && $recruitsku->statuscma == null)
+                           @elseif($recruitsku->status == "Approvee" && $recruitsku->statushrhead == "Approve"
+                           && $recruitsku->statuspgs == "Approve"  && $recruitsku->statuscma == null)
                            Progres Di CMA
 
                            @elseif($recruitsku->statuscma != null)
@@ -170,11 +189,11 @@
 
 
 
-                          @elseif($recruitsku->status == "Prosess di Reaject Oleh HR Staff" ||
-                                  $recruitsku->statuspgs == "Prosess di Reaject PGS"
-                               || $recruitsku->statushrhead == "Prosess di Reaject HR Head"
-                               || $recruitsku->statusgahead == "Prosess di Reaject GA"
-                               || $recruitsku->statuscma == "REAJECT")
+                          @elseif($recruitsku->status == "Reject" ||
+                                  $recruitsku->statuspgs == "Reject"
+                               || $recruitsku->statushrhead == "Reject"
+                               || $recruitsku->statusgahead == "Reject"
+                               || $recruitsku->statuscma == "Reject")
                           <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
 
                           @elseif ($recruitsku->statusgahead == "Approve")
@@ -188,22 +207,134 @@
                             && $recruitsku->statuscma == null)
                            <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
 
-                          @elseif($recruitsku->status == "Prosess di Reaject Oleh HR Staff" ||
-                                  $recruitsku->statuspgs == "Prosess di Reaject PGS"
-                               || $recruitsku->statushrhead == "Prosess di Reaject HR Head"
-                               || $recruitsku->statusgahead == "Prosess di Reaject GA"
-                               || $recruitsku->statuscma == "REAJECT")
+                          @elseif($recruitsku->status == "Reject" ||
+                                  $recruitsku->statuspgs == "Reject"
+                               || $recruitsku->statushrhead == "Reject"
+                               || $recruitsku->statusgahead == "Reject"
+                               || $recruitsku->statuscma == "Reject")
                            <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
 
-                          @elseif ($recruitsku->statuscma == "APPROVE")
+                          @elseif ($recruitsku->statuscma == "Approve")
                           <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
 
                           @elseif ($recruitsku->status != null || $recruitsku->statuspgs != null
                             || $recruitsku->statushrhead != null || $recruitsku->statusgahead != null)
                            <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
                         @endif
+                    </td> --}}
+
+                    {{-- PROSES HC STAFF --}}
+                    <td>
+                        @if ($recruitsku->status == "-" && $recruitsku->statuspgs == "-" ||
+                             $recruitsku->status == "Approve" && $recruitsku->statuspgs == "Approve")
+                        <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
+
+                        @elseif($recruitsku->status == "Reject" ||
+                                $recruitsku->statuspgs == "Reject"
+                            || $recruitsku->statushrhead == "Reject"
+                            || $recruitsku->statusgahead == "Reject"
+                            || $recruitsku->statuscma == "Reject")
+                        <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
+
+                        @elseif ($recruitsku->status == "Approve" && $recruitsku->npk != null
+                                && $recruitsku->ketklaim == "Non Invoice")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+
+                        @elseif ($recruitsku->status == "Approve" && $recruitsku->npk == null
+                        && $recruitsku->ketklaim == "Invoice" && $recruitsku->statusgahead == "-")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+
+                        @elseif ($recruitsku->status == "Approve" && $recruitsku->npk == null
+                        && $recruitsku->ketklaim == "Invoice" && $recruitsku->statusgahead == "Approve")
+                         <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></i></a>
+
+                         @elseif ($recruitsku->status == "Approve" && $recruitsku->npk != null
+                        && $recruitsku->ketklaim == "Invoice")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+
+                        @elseif ($recruitsku->status == "Approve" && $recruitsku->statusgahead == "Approve"
+                                && $recruitsku->ketklaim == "Invoice" && $recruitsku->npk == null)
+                        <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></i></a>
+
+                        @elseif ($recruitsku->status == "Approvee" && $recruitsku->statuspgs == "Approve")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+                        @endif
                     </td>
 
+                    {{-- PROSES ga head --}}
+                    <td>
+                        @if ($recruitsku->status == "Reject" ||
+                                $recruitsku->statuspgs == "Reject"
+                            || $recruitsku->statushrhead == "Reject"
+                            || $recruitsku->statusgahead == "Reject"
+                            || $recruitsku->statuscma == "Reject")
+                        <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
+
+                        @elseif($recruitsku->statusgahead == "-" && $recruitsku->ketklaim == "Invoice")
+                        <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
+
+                        @elseif($recruitsku->statusgahead == "-" && $recruitsku->ketklaim == "Non Invoice")
+                        <a>-</a>
+
+                        @elseif ($recruitsku->statusgahead == "Approve")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+                        @endif
+                    </td>
+
+                    {{-- PROSES hc head --}}
+                    <td>
+                        @if ($recruitsku->statushrhead == "-")
+                        <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
+
+                        @elseif($recruitsku->status == "Reject" ||
+                                $recruitsku->statuspgs == "Reject"
+                            || $recruitsku->statushrhead == "Reject"
+                            || $recruitsku->statusgahead == "Reject"
+                            || $recruitsku->statuscma == "Reject")
+                        <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
+
+                        @elseif ($recruitsku->statushrhead == "Approve")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+                        @endif
+                    </td>
+
+                    {{-- PROSES PGS --}}
+                    <td>
+                        @if ($recruitsku->status == "Reject" ||
+                                $recruitsku->statuspgs == "Reject"
+                            || $recruitsku->statushrhead == "Reject"
+                            || $recruitsku->statusgahead == "Reject"
+                            || $recruitsku->statuscma == "Reject")
+                        <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
+
+                        @elseif($recruitsku->statuspgs == "-")
+                        <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
+
+
+                        @elseif ($recruitsku->statuspgs == "Approve")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+                        @endif
+                    </td>
+
+                    {{-- PROSES cma --}}
+                    <td>
+                        @if ($recruitsku->statuscma == "-")
+                        <a><i class="fa fa-exclamation-circle fa-lg" style="color: rgb(241, 226, 8)"></i></a>
+
+                        @elseif($recruitsku->status == "Reject" ||
+                                $recruitsku->statuspgs == "Reject"
+                            || $recruitsku->statushrhead == "Reject"
+                            || $recruitsku->statusgahead == "Reject"
+                            || $recruitsku->statuscma == "Reject")
+                        <a><i class="fa fa-times-circle fa-lg" style="color: rgb(180, 12, 12)"></i></a>
+
+                        @elseif ($recruitsku->statuscma == "Approve")
+                        <a><i class="fa fa-check-circle fa-lg" style="color: rgb(0, 110, 0)"></i></a>
+
+                        @endif
+                    </td>
+
+                    <td>{{ $recruitsku->tanggal_verif }}</td>
                     <td>
                         @if ($recruitsku->ketklaim == "Invoice")
                         <a href="/dashboard/ga/{{$recruitsku->id}}/edit">
@@ -213,10 +344,9 @@
                         <a class="badge bg-success"><i class="bi bi-x-circle-fill"></i></span></a>
                         @endif
                     </td>
-    @endif
-
                 </tr>
                 @endforeach
+
             </tbody>
           </table>
           <div class="d-flex justify-content-end pull-right">

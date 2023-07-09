@@ -36,11 +36,11 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                    required autofocus value="{{ old('email') }}">
+                    <label for="npk" class="form-label">NPK</label>
+                    <input type="text" class="form-control @error('npk') is-invalid @enderror" id="npk" name="npk"
+                    required autofocus value="{{ old('npk') }}">
 
-                      @error('email')
+                      @error('npk')
                           <div class="invalid-feedback">
                           {{ $message }}
                           </div>
@@ -69,43 +69,49 @@
         <!-- /.col -->
 
         <div class="col-md-6">
+            {{-- <div class="mb-3">
+                <label for="status" class="form-label">Jabatan</label>
+                <select class="form-control select2" style="width: 100%;" aria-label="Default select example"
+                     name="status" data-placeholder="Pilih Status JABATAN" required>
+                    <option selected></option>
+                    <option value="PGS">PGS</option>
+                    <option value="HR">HR</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="CMA">CMA</option>
+                </select>
+            </div> --}}
+
             <div class="mb-3">
                 <label for="status" class="form-label">Jabatan</label>
                 <select class="form-control select2" style="width: 100%;" aria-label="Default select example"
-             name="status" data-placeholder="Pilih Status JABATAN" required>
-                <option selected></option>
-                <option value="PGS">PGS</option>
-                <option value="HR">HR</option>
-                <option value="ADMIN">ADMIN</option>
-            </select>
-          </div>
+                     name="role_id" data-placeholder="Pilih Status JABATAN" required>
+                     <option selected> </option>
+                     @foreach($roles as $pos)
+                         <option value="{{$pos->id}}">{{$pos->nama}}</option>
+                     @endforeach
+                </select>
+            </div>
 
             <div class="mb-3">
                 <label for="PT" class="form-label">PT</label>
                 <select class="form-control select2" style="width: 100%;" aria-label="Default select example"
-             name="PT" data-placeholder="Pilih Status PT" required>
-                <option selected></option>
-                <option value="PT SWA">PT SWA</option>
-                <option value="PT DAN">PT DAN</option>
-                <option value="PT DIN">PT DIN</option>
-                <option value="PT DWT">PT DWT</option>
-                <option value="PT KPAS">PT KPAS</option>
+                name="lokasi_id" data-placeholder="Pilih Status PT" required>
+                <option selected> </option>
+                    @foreach($lokasis as $pos)
+                        <option value="{{$pos->id}}">{{$pos->nama}}</option>
+                    @endforeach
             </select>
           </div>
 
           <div class="mb-3">
             <label for="estate" class="form-label">Estate</label>
             <select class="form-control select2" style="width: 100%;" aria-label="Default select example"
-         name="estate" data-placeholder="Pilih Status estate" required>
-            <option selected></option>
-            <option value="JABDAN 1">JABDAN 1</option>
-            <option value="JABDAN 2">JABDAN 2</option>
-            <option value="LJ 1">LJ 1</option>
-            <option value="LJ 2">LJ 2</option>
-            <option value="LK 1">LK 1</option>
-            <option value="LK 2">LK 2</option>
-            <option value="LK 3">LK 3</option>
-                </select>
+                name="lokasi_estate_id" data-placeholder="Pilih Status estate" required>
+                <option selected> </option>
+                    @foreach($estates as $pos)
+                        <option value="{{$pos->id}}">{{$pos->nama}}</option>
+                    @endforeach
+            </select>
            </div>
 
 

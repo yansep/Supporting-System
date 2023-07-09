@@ -1,298 +1,538 @@
 @extends('layouts.master')
 
 @section('content-header')
-<div class="card card-default">
-    <div class="card-header">
-      <h3 class="card-title">Edit Data SKU</h3>
+<form method="post" action="/dashboard/hrhead/{{ $recruitskus->id }}" enctype="multipart/form-data">
+    {{-- <div class="form-group">
+        <input type="hidden" name="perjalanan_id" value="{{$perjalanan->id}}">
+    </div> --}}
+    @method('put')
+    @csrf
+            <div class="container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#menu1"><b>DATA SKU</b></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu2"><b>DATA KELUARGA</b></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu3"><b>DATA PERJALANAN</b></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#menu4"><b>PROSES</b></a>
+                        </li>
+                </ul>
 
-      <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
-      </div>
-    </div>
-            @if(session()->has('success'))
-            <div class="alert alert-success col-lg-10" role="alert">
-            {{ session ('success') }}
+                  <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div id="menu1" class="container tab-pane active"><br>
+                       {{-- DATA SKU --}}
+                        <div class="card card-default">
+                            @csrf
+                            <div class="card card-default">
+                                <div class="card-header">
+                                <h3 class="card-title"><b>Data SKU</b></h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                                </div>
+                                </div>
+                                        @if(session()->has('success'))
+                                        <div class="alert alert-success col-lg-10" role="alert">
+                                        {{ session ('success') }}
+                                        </div>
+                                        @endif
+
+
+                                <div class="card-body">
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                            <div class="mb-3">
+                                                                <label for="nik" class="form-label">NIK</label>
+                                                                <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik"
+                                                                name="nik" readonly required autofocus value="{{ old('nik', $recruitskus->nik) }}">
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="nama" class="form-label">Nama</label>
+                                                                <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
+                                                                required readonly autofocus value="{{ old('nama', $recruitskus->nama) }}">
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="PT" class="form-label">PT</label>
+                                                                <input type="text" readonly class="form-control @error('PT') is-invalid @enderror" id="PT" name="PT"
+                                                                required autofocus value="{{ old('PT', $recruitskus->user->PT) }}">
+                                                            </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="mb-3">
+                                                        <label for="province_id" class="form-label">Provinsi</label>
+                                                        <input type="text" readonly class="form-control" id="province_id" name="province_id"
+                                                        autofocus value="{{ old('province_id', $recruitskus->province->name) }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="regional" class="form-label">Kota / Kabupaten</label>
+                                                        <input type="text" readonly class="form-control" id="regional" name="regional"
+                                                        autofocus value="{{ old('regional', $recruitskus->regency->name) }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="estate" class="form-label">ESTATE</label>
+                                                        <input type="text" readonly class="form-control @error('estate') is-invalid @enderror" id="estate" name="estate"
+                                                        required autofocus value="{{ old('estate', $recruitskus->user->estate) }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="menu2" class="container tab-pane fade"><br>
+                       {{-- DATA STATUS KELUARGA --}}
+                        <div class="card card-default">
+                            @csrf
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h3 class="card-title"><b>Data Keluarga SKU</b></h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                                    </div>
+                                </div>
+                                        @if(session()->has('success'))
+                                            <div class="alert alert-success col-lg-10" role="alert">
+                                            {{ session ('success') }}
+                                            </div>
+                                        @endif
+
+                                <div class="card-body">
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <div class="mb-3">
+                                                        <label for="statuskaryawan" class="form-label">Status Tanggunagan Karyawan</label>
+                                                        <input type="text" readonly class="form-control" id="statuskaryawan" name="statuskaryawan"
+                                                        autofocus value="{{ old('statuskaryawan', $recruitskus->statuskaryawan) }}">
+                                                    </div>
+
+                                                    @if($recruitskus->statuskaryawan == "k0")
+                                                        <div class="mb-3">
+                                                            <label for="k0" class="form-label">Nama Istri</label>
+                                                            <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
+                                                            readonly autofocus value="{{ old('k0', $recruitskus->k0)  }}">
+                                                        </div>
+
+                                                        @elseif($recruitskus->statuskaryawan == "k1")
+                                                            <div class="mb-3">
+                                                                <label for="k0" class="form-label">Nama Istri</label>
+                                                                <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
+                                                                readonly autofocus value="{{ old('k0', $recruitskus->k0) }}">
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="k1" class="form-label">Nama Anak 1</label>
+                                                                <input type="text" class="form-control @error('k1') is-invalid @enderror" id="k1" name="k1"
+                                                                readonly autofocus value="{{ old('k1', $recruitskus->k1)}}">
+                                                            </div>
+
+                                                        <div class="col-md-6">
+                                                            @elseif($recruitskus->statuskaryawan == "k2")
+                                                                <div class="mb-3">
+                                                                    <label for="k0" class="form-label">Nama Istri</label>
+                                                                    <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
+                                                                    readonly autofocus value="{{ old('k0', $recruitskus->k0)}}">
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="k1" class="form-label">Nama Anak 1</label>
+                                                                    <input type="text" class="form-control @error('k1') is-invalid @enderror" id="k1" name="k1"
+                                                                    readonly autofocus value="{{ old('k1', $recruitskus->k1) }}">
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="k2" class="form-label">Nama Anak 2</label>
+                                                                    <input type="text" class="form-control @error('k2') is-invalid @enderror" id="k2" name="k2"
+                                                                    readonly autofocus value="{{ old('k2', $recruitskus->k2)}}">
+                                                                </div>
+
+                                                            @elseif($recruitskus->statuskaryawan == "k3")
+                                                                <div class="mb-3">
+                                                                    <label for="k0" class="form-label">Nama Istri</label>
+                                                                    <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
+                                                                    readonly autofocus value="{{  old('k0', $recruitskus->k0) }}">
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="k1" class="form-label">Nama Anak 1</label>
+                                                                    <input type="text" class="form-control @error('k1') is-invalid @enderror" id="k1" name="k1"
+                                                                    readonly autofocus value="{{ old('k1', $recruitskus->k1) }}">
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="k2" class="form-label">Nama Anak 2</label>
+                                                                    <input type="text" class="form-control @error('k2') is-invalid @enderror" id="k2" name="k2"
+                                                                    readonly autofocus value="{{ old('k2', $recruitskus->k2)}}">
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="k3" class="form-label">Nama Anak 3</label>
+                                                                    <input type="text" class="form-control @error('k3') is-invalid @enderror" id="k3" name="k3"
+                                                                    readonly autofocus value="{{ old('k3', $recruitskus->k3)}}">
+                                                                </div>
+                                                        </div>
+
+                                                        @endif
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="menu3" class="container tab-pane fade"><br>
+                         {{-- DATA STATUS BIAYA --}}
+                         @foreach($perjalanan as $p)
+                            <div class="card card-default">
+                                @csrf
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <h3 class="card-title"><b>Data Biaya SKU</b></h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                                            </div>
+                                    </div>
+                                                @if(session()->has('success'))
+                                                <div class="alert alert-success col-lg-10" role="alert">
+                                                {{ session ('success') }}
+                                                </div>
+                                                @endif
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <label for="ketklaim" class="form-label">Keterangan Invoice / Non Invoice</label>
+                                                    <input type="text" readonly class="form-control" id="ketklaim" name="ketklaim"
+                                                    autofocus value="{{ old('ketklaim', $recruitskus->ketklaim) }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                            </div>
+                                        </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6">
+                                                    <div>
+                                                        <label for="kab_asal" class="form-label">Kota / Kabupaten</label>
+                                                        <input type="text" readonly class="form-control" id="kab_asal" name="kab_asal"
+                                                        autofocus value="{{ old('kab_asal', $p->kab_asal) }}"><br>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="org_transport" class="form-label">Transport X/Org</label>
+                                                        <input type="number" placeholder="Berapa Orang" class="form-control @error('org_transport')
+                                                        is-invalid @enderror" id="org_transport" name="org_transport" readonly
+                                                        required autofocus value="{{ old('org_transport', $p->org_transport) }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <br><br><br>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="org_cefetaria" class="form-label">Cafetaria X/Org</label>
+                                                        <input type="number" placeholder="Berapa Orang" class="form-control @error('org_cefetaria')
+                                                        is-invalid @enderror" id="org_cefetaria" name="org_cefetaria" readonly
+                                                        required autofocus value="{{ old('org_cefetaria', $p->org_cefetaria) }}">
+                                                    </div><br><br><br><br>
+                                                </div>
+
+                                                <div class="col-12 col-sm-6">
+                                                    <div>
+                                                        <label for="kab_tiba" class="form-label">Kota / Kabupaten</label>
+                                                        <input type="text" readonly class="form-control" id="kab_tiba" name="kab_tiba"
+                                                        autofocus value="{{ old('kab_tiba', $p->kab_tiba) }}"><br>
+                                                    </div>
+
+                                                        <div class="mb-3">
+                                                                <label for="kolom1" class="form-label">Biaya Transport/Org</label>
+                                                                <input type="number" placeholder="Rp." class="form-control @error('kolom1')
+                                                                is-invalid @enderror" id="kolom1" name="kolom1" readonly
+                                                                required autofocus value="{{ old('kolom1', $p->kolom1) }}">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="total_transport" class="form-label">Total Transport</label>
+                                                            <input type="text" readonly class="form-control @error('total_transport') is-invalid @enderror" id="total_transport" name="total"
+                                                            autofocus value="{{ old('total_transport', $p->total_transport) }}" readonly>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="kolom2" class="form-label">Biaya Cafetaria/org</label>
+                                                            <input type="number" placeholder="Rp."  class="form-control @error('kolom2')
+                                                            is-invalid @enderror" id="kolom2" name="kolom2" readonly
+                                                            required autofocus value="{{ old('kolom2', $p->kolom2) }}">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="total_cafetaria" class="form-label">Total Cafetaria</label>
+                                                            <input type="text" readonly class="form-control @error('total_cafetaria') is-invalid @enderror" id="total_cafetaria" name="total"
+                                                            autofocus value="{{ old('total_cafetaria', $p->total_cafetaria) }}" readonly>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="total" class="form-label">Total Pengeluaran</label>
+                                                            <input type="text" readonly class="form-control @error('total') is-invalid @enderror" id="total" name="total"
+                                                            autofocus value="{{ old('total', $p->total) }}" readonly>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div id="menu4" class="container tab-pane fade"><br>
+                        <div class="card card-default">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h3 class="card-title"><b>PROSES</b></h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                                        </div>
+                                </div>
+                                            @if(session()->has('success'))
+                                            <div class="alert alert-success col-lg-10" role="alert">
+                                            {{ session ('success') }}
+                                            </div>
+                                            @endif
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        {{-- PROSES NPK --}}
+                                        @if ($recruitskus->npk != null)
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="npk" class="form-label">NPK</label>
+                                                    <input type="text" class="form-control @error('npk') is-invalid @enderror"
+                                                    id="npk" name="npk"readonly autofocus value="{{ old('npk', $recruitskus->npk) }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="tanggal_verif" class="form-label">Tanggal</label>
+                                                    <input type="text" class="form-control @error('tanggal_verif') is-invalid @enderror" id="tanggal_verif"
+                                                    name="tanggal_verif" readonly required autofocus value="{{ Carbon\Carbon::parse($tanggal_verif)->isoFormat('dddd, D MMMM Y') }}">
+                                            </div>
+                                            </div>
+                                        @endif
+
+                                        @if ($recruitskus->status == "Approve" && $recruitskus->statushrhead == "Approve"
+                                                && $recruitskus->statuspgs == "Approve")
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="ketklaim" class="form-label">Keterangan Invoice</label>
+                                                        <input type="text" readonly class="form-control" id="ketklaim" name="ketklaim"
+                                                            autofocus value="HR Staff memverivikasi Lampiran">
+                                                    </div>
+                                                    <a href="/dashboard/hrhead/">
+                                                        <button class="btn btn-success" type="button">Back</button></a>
+                                                </div>
+
+                                            @elseif($recruitskus->status == "Approve" && $recruitskus->statushrhead == "Approve"
+                                                    && $recruitskus->statuspgs == "Approve")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="ketklaim" class="form-label">Keterangan Invoice</label>
+                                                            <input type="text" readonly class="form-control" id="ketklaim" name="ketklaim"
+                                                                autofocus value="Progres HR Staff, Proses Lampiran">
+                                                        </div>
+                                                        <a href="/dashboard/hrhead/">
+                                                        <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+
+                                            @elseif ($recruitskus->statushrhead == "Reject")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Proses</label>
+                                                            <input type="text" readonly class="form-control" id="status" name="status"
+                                                            autofocus value= "Data Di Reject HR Head">
+                                                        </div>
+                                                        <a href="/dashboard/hrhead">
+                                                        <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                                            <input readonly type="text" class="form-control" id="keterangan" name="keterangan"
+                                                            autofocus value="{{ old('keterangan', $recruitskus->keterangan) }}">
+                                                        </div>
+                                                    </div>
+
+                                            @elseif ($recruitskus->statuspgs == "Reject")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Proses</label>
+                                                            <input type="text" readonly class="form-control" id="status" name="status"
+                                                            autofocus value= "Data Di Reject PGS">
+                                                        </div>
+                                                        <a href="/dashboard/hrhead">
+                                                        <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                                            <input readonly type="text" class="form-control" id="keterangan" name="keterangan"
+                                                            autofocus value="{{ old('keterangan', $recruitskus->keterangan) }}">
+                                                        </div>
+                                                    </div>
+
+                                            @elseif($recruitskus->status == "Approve" &&
+                                                    $recruitskus->npk != null && $recruitskus->statuspgs == "-" )
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                                <label for="statushrhead" class="form-label">Prosses</label>
+                                                                <select class="form-control select2" style="width: 100%;" aria-label="Default select example" name="statushrhead" required>
+                                                                    <option selected value="">--PILIH--</option>
+                                                                    <option value="Approve" <?= $recruitskus->statushrhead == "Approve" ?
+                                                                    "selected" : ""?>>Approve</option>
+                                                                    <option value="Reject" <?= $recruitskus->statushrhead == "Reject" ?
+                                                                    "selected" : ""?>>Reject</option>
+                                                                </select>
+                                                        </div>
+                                                        <p>
+                                                            <button type="submit" class="btn btn-primary">Prosses</button>
+                                                        <a href="/dashboard/hrhead/">
+                                                            <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                                            <textarea type="text" class="form-control @error('keterangan') is-invalid @enderror"
+                                                            id="keterangan" name="keterangan"
+                                                            placeholder="Isi Keterangan Bila Reject" rows="3">{{old('keterangan', $recruitskus->keterangan)}}</textarea>
+                                                            @error('keterangan')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                            @elseif($recruitskus->status == "Approve" && $recruitskus->statusgahead == "-" &&
+                                                    $recruitskus->npk != null)
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="statushrhead" class="form-label">Prosses</label>
+                                                            <select class="form-control select2" style="width: 100%;" aria-label="Default select example" name="statushrhead" required>
+                                                                <option selected value="">--PILIH--</option>
+                                                                <option value="Approve" <?= $recruitskus->statushrhead == "Approve" ?
+                                                                    "selected" : ""?>>Approve</option>
+                                                                <option value="Reject" <?= $recruitskus->statushrhead == "Reject" ?
+                                                                    "selected" : ""?>>Reject</option>
+                                                            </select>
+                                                        </div>
+                                                            <p>
+                                                            <button type="submit" class="btn btn-primary">Prosses</button>
+                                                            <a href="/dashboard/hrhead/">
+                                                                <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                                            <textarea type="text" class="form-control @error('keterangan') is-invalid @enderror"
+                                                            id="keterangan" name="keterangan"
+                                                            placeholder="Isi Keterangan Bila Reject" rows="3">{{old('keterangan', $recruitskus->keterangan)}}</textarea>
+                                                            @error('keterangan')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                            @elseif($recruitskus->status == "Reject")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Prosses</label>
+                                                            <input type="text" readonly class="form-control" id="status" name="status"
+                                                            autofocus value="Di Reject Oleh HR Staff">
+                                                        </div>
+                                                            <a href="/dashboard/hrhead/">
+                                                            <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                                            <textarea readonly type="text" class="form-control @error('keterangan') is-invalid @enderror"
+                                                            id="keterangan" name="keterangan"
+                                                            placeholder="Isi Keterangan Bila Reject" rows="3">{{old('keterangan', $recruitskus->keterangan)}}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                            @elseif($recruitskus->statusgahead == "-" && $recruitskus->ketklaim == "Invoice")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Prosses</label>
+                                                            <input type="text" readonly class="form-control" id="status" name="status"
+                                                            autofocus value="Data Belum Di Proses GA">
+                                                        </div>
+                                                        <a href="/dashboard/hrhead/">
+                                                            <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+
+                                            @elseif($recruitskus->status == "Approvee" && $recruitskus->statuscma == "-")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Prosses</label>
+                                                            <input type="text" readonly class="form-control" id="status" name="status"
+                                                            autofocus value="Data Belum Di Proses CMA">
+                                                        </div>
+                                                        <a href="/dashboard/hrhead/">
+                                                            <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+
+                                            @elseif($recruitskus->statuscma == "Approve")
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Prosses</label>
+                                                            <input type="text" readonly class="form-control" id="status" name="status"
+                                                            autofocus value="Approve CMA">
+                                                        </div>
+                                                        <a href="/dashboard/hrhead/">
+                                                            <button class="btn btn-success" type="button">Back</button></a>
+                                                    </div>
+                                        @endif
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            @endif
-
-
-
-  <!-- /.card-header -->
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <form method="post" action="/dashboard/hrhead/{{ $recruitskus->id }}" enctype="multipart/form-data">
-                @method('put')
-                @csrf
-                <div class="mb-3">
-                    <label for="nik" class="form-label">NIK</label>
-                    <input type="text" readonly class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik"
-                    required autofocus value="{{ old('nik', $recruitskus->nik) }}">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="npk" class="form-label">NPK Rekrut</label>
-                    <input type="text" readonly placeholder="Masukan NPK" class="form-control @error('npk') is-invalid @enderror" id="npk" name="npk"
-                  autofocus value="{{ old('npk', $recruitskus->npk) }}">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="nama" class="form-label">Nama</label>
-                    <input type="text" readonly class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
-                    required autofocus value="{{ old('nama', $recruitskus->nama) }}">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="asal" class="form-label">Asal Rekrut</label>
-                    <input type="text" readonly class="form-control @error('asal') is-invalid @enderror" id="asal" name="asal"
-                    required autofocus value="{{ old('asal', $recruitskus->asal) }}">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="ketklaim" class="form-label">Keterangan</label>
-                    <input type="text" readonly class="form-control" id="ketklaim" name="ketklaim"
-                     autofocus value="{{ old('ketklaim', $recruitskus->ketklaim) }}">
-                  </div>
-                </div>
-
-                @if ($recruitskus->statuspgs== "HR Staff memproses Lampiran")
-              <div class="mb-3">
-                <label for="kolom1" class="form-label">KOLOM 1</label>
-                <input type="text" readonly placeholder="Rp." class="form-control @error('kolom1') is-invalid @enderror" id="kolom1" name="kolom1"
-                 autofocus value="{{ old('kolom1', $recruitskus->kolom1) }}">
-              </div>
-
-
-              <div class="mb-3">
-                <label for="kolom2" class="form-label">KOLOM 2</label>
-                <input type="text" readonly placeholder="Rp."  class="form-control @error('kolom2') is-invalid @enderror" id="kolom2" name="kolom2"
-                 autofocus value="{{ old('kolom2', $recruitskus->kolom2) }}">
-              </div>
-
-              <div class="mb-3">
-                <label for="total" class="form-label">TOTAL</label>
-                <input type="text" readonly class="form-control @error('total') is-invalid @enderror" id="total" name="total"
-                 autofocus value="{{ old('total', $recruitskus->kolom1 + $recruitskus->kolom2) }}">
-              </div>
-            @endif
-        </div>
-
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="statuskaryawan" class="form-label">Status Tanggungan Karyawan</label>
-                <input type="text" readonly class="form-control @error('statuskaryawan') is-invalid @enderror" id="statuskaryawan" name="statuskaryawan"
-                required autofocus value="{{ old('statuskaryawan', $recruitskus->statuskaryawan) }}">
-
-                  @error('statuskaryawan')
-                      <div class="invalid-feedback">
-                      {{ $message }}
-                      </div>
-                  @enderror
-            </div>
-
-            @if($recruitskus->statuskaryawan == "k0")
-                <div class="mb-3">
-                <label for="k0" class="form-label">Nama Istri</label>
-                <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
-                readonly autofocus value="{{ old('k0', $recruitskus->k0)  }}">
-                </div>
-
-                @elseif($recruitskus->statuskaryawan == "k1")
-                    <div class="mb-3">
-                        <label for="k0" class="form-label">Nama Istri</label>
-                        <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
-                        readonly autofocus value="{{ old('k0', $recruitskus->k0) }}">
-                    </div>
-
-                    <div class="mb-3">
-                            <label for="k1" class="form-label">Nama Anak 1</label>
-                            <input type="text" class="form-control @error('k1') is-invalid @enderror" id="k1" name="k1"
-                            readonly autofocus value="{{ old('k1', $recruitskus->k1)}}">
-                    </div>
-
-                @elseif($recruitskus->statuskaryawan == "k2")
-                    <div class="mb-3">
-                        <label for="k0" class="form-label">Nama Istri</label>
-                        <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
-                        readonly autofocus value="{{ old('k0', $recruitskus->k0)}}">
-                    </div>
-
-                    <div class="mb-3">
-                    <label for="k1" class="form-label">Nama Anak 1</label>
-                    <input type="text" class="form-control @error('k1') is-invalid @enderror" id="k1" name="k1"
-                    readonly autofocus value="{{ old('k1', $recruitskus->k1) }}">
-                    </div>
-
-                    <div class="mb-3">
-                    <label for="k2" class="form-label">Nama Anak 2</label>
-                    <input type="text" class="form-control @error('k2') is-invalid @enderror" id="k2" name="k2"
-                    readonly autofocus value="{{ old('k2', $recruitskus->k2)}}">
-                    </div>
-
-                @elseif($recruitskus->statuskaryawan == "k3")
-                    <div class="mb-3">
-                        <label for="k0" class="form-label">Nama Istri</label>
-                        <input type="text" class="form-control @error('k0') is-invalid @enderror" id="k0" name="k0"
-                        readonly autofocus value="{{  old('k0', $recruitskus->k0) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="k1" class="form-label">Nama Anak 1</label>
-                        <input type="text" class="form-control @error('k1') is-invalid @enderror" id="k1" name="k1"
-                        readonly autofocus value="{{ old('k1', $recruitskus->k1) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="k2" class="form-label">Nama Anak 2</label>
-                        <input type="text" class="form-control @error('k2') is-invalid @enderror" id="k2" name="k2"
-                        readonly autofocus value="{{ old('k2', $recruitskus->k2)}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="k3" class="form-label">Nama Anak 3</label>
-                        <input type="text" class="form-control @error('k3') is-invalid @enderror" id="k3" name="k3"
-                        readonly autofocus value="{{ old('k3', $recruitskus->k3)}}">
-                    </div>
-            @endif
-
-
-
-
-
-
-      <!-----------------------kondisi aprove-------------------------------------------------------------------------->
-    @if ($recruitskus->status == "Approve" && $recruitskus->statushrhead == "Approve"
-            && $recruitskus->statuspgs == "HR Staff memproses Lampiran"
-            && $recruitskus->kolom1 == null)
-            <div class="mb-3">
-                <label for="ketklaim" class="form-label">Keterangan Invoice</label>
-                <input type="text" readonly class="form-control" id="ketklaim" name="ketklaim"
-                    autofocus value="HR Staff memverivikasi Lampiran">
-            </div>
-            <a href="/dashboard/hrhead/">
-                <button class="btn btn-success" type="button">Back</button></a>
-
-        @elseif($recruitskus->status == "Approve" && $recruitskus->statushrhead == "Approve"
-                && $recruitskus->statuspgs == "HR Staff memproses Lampiran"
-                && $recruitskus->kolom1 != null)
-                <div class="mb-3">
-                    <label for="ketklaim" class="form-label">Keterangan Invoice</label>
-                    <input type="text" readonly class="form-control" id="ketklaim" name="ketklaim"
-                        autofocus value="Progres CMA">
-                </div>
-                <a href="/dashboard/hrhead/">
-                <button class="btn btn-success" type="button">Back</button></a>
-
-        @elseif ($recruitskus->statuspgs == "Prosess di Reaject PGS")
-                <div class="mb-3">
-                    <label for="status" class="form-label">Proses</label>
-                    <input type="text" readonly class="form-control" id="status" name="status"
-                    autofocus value= "Data Di Reaject">
-                    </div>
-                <div class="mb-3">
-                <label for="keterangan" class="form-label">Keterangan</label>
-                <input readonly type="text" readonly class="form-control" id="keterangan" name="keterangan"
-                autofocus value="{{ old('keterangan', $recruitskus->keterangan) }}">
-                </div>
-                <a href="/dashboard/hrhead">
-                <button class="btn btn-success" type="button">Back</button></a>
-
-        @elseif($recruitskus->status == "Approve" && $recruitskus->statusgahead == "Approve" &&
-                $recruitskus->npk != null )
-                <div class="mb-3">
-                    <label for="statushrhead" class="form-label">Prosses</label>
-                    <select class="form-control select2" style="width: 100%;" aria-label="Default select example" name="statushrhead" required>
-                    <option selected value="">--PILIH--</option>
-                    <option value="Approve" <?= $recruitskus->statushrhead == "Approve" ?
-                    "selected" : ""?>>Approve</option>
-                    <option value="Prosess di Reaject HR Head" <?= $recruitskus->statushrhead == "Prosess di Reaject HR Head" ?
-                    "selected" : ""?>>Reaject</option>
-                </select>
-                </div>
-                <div class="mb-3">
-                    <label for="keterangan" class="form-label">Keterangan</label>
-                    <textarea type="text" class="form-control @error('keterangan') is-invalid @enderror"
-                    id="keterangan" name="keterangan"
-                    placeholder="Isi Keterangan Bila Reject" rows="3">{{old('keterangan', $recruitskus->keterangan)}}</textarea>
-                    @error('keterangan')
-                        <div class="invalid-feedback">
-                        {{ $message }}
-                </div>
-                    @enderror
-                </div>
-                <p>
-                    <button type="submit" class="btn btn-primary">Prosses</button>
-                </p>
-
-        @elseif($recruitskus->status == "Approve" && $recruitskus->statusgahead == null &&
-                $recruitskus->npk != null)
-                <div class="mb-3">
-                <label for="statushrhead" class="form-label">Prosses</label>
-                <select class="form-control select2" style="width: 100%;" aria-label="Default select example" name="statushrhead" required>
-                <option selected value="">--PILIH--</option>
-                <option value="Approve" <?= $recruitskus->statushrhead == "Approve" ?
-                    "selected" : ""?>>Approve</option>
-                <option value="Prosess di Reaject HR Head" <?= $recruitskus->statushrhead == "Prosess di Reaject HR Head" ?
-                    "selected" : ""?>>Reaject</option>
-                </select>
-                </div>
-                <div class="mb-3">
-                <label for="keterangan" class="form-label">Keterangan</label>
-                <textarea type="text" class="form-control @error('keterangan') is-invalid @enderror"
-                id="keterangan" name="keterangan"
-                placeholder="Isi Keterangan Bila Reject" rows="3">{{old('keterangan', $recruitskus->keterangan)}}</textarea>
-                @error('keterangan')
-                        <div class="invalid-feedback">
-                        {{ $message }}
-                </div>
-                    @enderror
-                </div>
-                <p>
-                <button type="submit" class="btn btn-primary">Prosses</button>
-                </p>
-
-        @elseif($recruitskus->status == "Prosess di Reaject Oleh HR Staff")
-                <div class="mb-3">
-                <label for="status" class="form-label">Prosses</label>
-                <input type="text" readonly class="form-control" id="status" name="status"
-                autofocus value="{{ old('status', $recruitskus->status) }}">
-                </div>
-                <div class="mb-3">
-                <label for="keterangan" class="form-label">Keterangan</label>
-                <textarea readonly type="text" class="form-control @error('keterangan') is-invalid @enderror"
-                id="keterangan" name="keterangan"
-                placeholder="Isi Keterangan Bila Reject" rows="3">{{old('keterangan', $recruitskus->keterangan)}}</textarea>
-                </div>
-                <a href="/dashboard/hrhead/">
-                <button class="btn btn-success" type="button">Back</button></a>
-
-
-        @elseif($recruitskus->statusgahead == null && $recruitskus->ketklaim == "Invoice")
-                <div class="mb-3">
-                    <label for="status" class="form-label">Prosses</label>
-                    <input type="text" readonly class="form-control" id="status" name="status"
-                    autofocus value="Data Belum Di Proses GA">
-                </div>
-                <a href="/dashboard/hrhead/">
-                    <button class="btn btn-success" type="button">Back</button></a>
-  @endif
-
-        </div>
-        <!-- /.col -->
-    </div>
-</div>
-
-
-
-
-</div>
-      <!-- /.row -->
-</div>
-    <!-- /.card-body -->
-
 </form>
-</div>
 
 @endsection

@@ -18,7 +18,7 @@ class LoginController extends Controller
     public function authenticate(Request $request) // merupakan method login if else pesan error kesalahan
     {
         $credentials = $request->validate([
-            'email' => 'required|email:dns',
+            'npk' => 'required',
             'password' => 'required'
         ]);
 

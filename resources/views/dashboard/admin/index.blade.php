@@ -15,7 +15,7 @@
         <div class="card-header">
 
             <div class="card-header">
-                <h3 class="card-title"><b>DATA ALL User</b></h3>
+                <h1 class="card-title"><b>DATA ALL USER</b></h1>
               </div>
             <br>
 
@@ -49,6 +49,8 @@
             <th scope="col">Nama</th>
             <th scope="col">Email</th>
             <th scope="col">Jabatan</th>
+            <th scope="col">PT</th>
+            <th scope="col">Estate</th>
             <th scope="col">Action</th>
             </tr>
             </thead>
@@ -57,9 +59,11 @@
                 @foreach($users as $User)
                 <tr>
                   <td>{{ $loop->iteration}}</td>
-                  <td>{{ $User->username }}</td>
+                  <td style = text-align:left>{{ $User->username }}</td>
                   <td>{{ $User->email }}</td>
-                  <td>{{ $User->status }}</td>
+                  <td>{{ $User->role->nama }}</td>
+                  <td>{{ $User->lokasi->nama }}</td>
+                  <td>{{ $User->lokasi_estate->nama }}</td>
                   <td>
                     <a href="/dashboard/admin/{{$User->id}}/edit"><i class="fas fa-edit fa-lg"
                         style="color: rgb(59, 29, 1)"></i></a>

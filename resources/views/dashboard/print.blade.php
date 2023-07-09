@@ -116,6 +116,7 @@
                 <td  style = text-align:center>{{ $recruitsku->ketklaim }}</td>
                 <td  style = text-align:center>{{ $recruitsku->statuskaryawan }}</td>
 
+
                 @if ($recruitsku->k0 == null )
                     <td  style = text-align:center><b>-</b></td>
                     @else
@@ -173,7 +174,7 @@
             <table class="table" width="100px">
               <tr>
                 <th style="width:100%">Subtotal:</th>
-                <td>{{ ($recruitsku->kolom1 + $recruitsku->kolom2) }}</td>
+                <td>@currency (5300000) </td>
               </tr>
             </table>
           </div>
@@ -181,33 +182,65 @@
       </div>
 
       <br>
-        <div class="col-6-center">
+        {{-- <div class="col-6-center">
             <p class="row justify-content-center"><b>APPROVED BY : </b></p>
-        </div>
+        </div> --}}
         <br>
 
-    <div class="row">
+        @if($recruitsku->ketklaim == 'Non Invoice')
+    <div class="row justify-content-center">
         <div class="col-3">
-            <p class="row justify-content-center"><b>APPROVED BY</b></p><br>
-            <p class="row justify-content-center"><b>HR STAFF</b></p>
+            <p class="row justify-content-center"><b>Di BUAT:</b></p>
+            <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
+            <p class="row justify-content-center"><b>HC STAFF</b></p>
         </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <div class="col-3">
-            <p class="row justify-content-center"><b>APPROVED BY</b></p><br>
-            <p class="row justify-content-center"><b>HR HEAD</b></p>
-        </div>
-
-        <div class="col-3">
-            <p class="row justify-content-center"><b>APPROVED BY</b></p><br>
-            <p class="row justify-content-center"><b>GA HEAD</b></p>
-        </div>
-
-        <div class="col-3">
-            <p class="row justify-content-center"><b>APPROVED BY</b></p><br>
+            <p class="row justify-content-center"><b>Di KETAHUI:</b></p>
+            <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
             <p class="row justify-content-center"><b>PGS</b></p>
+        </div>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="content-end">
+            <p class="row justify-content-center"><b>Di SETUJUI:</b></p>
+            <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
+            <p class="row justify-content-center"><b>HR HEAD</b></p>
         </div>
     </div>
 
+    @elseif($recruitsku->ketklaim == 'Invoice')
+        <div class="row">
+            <div class="col-3">
+                <p class="row justify-content-center"><b>Di BUAT:</b></p>
+                <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
+                <p class="row justify-content-center"><b>HC STAFF</b></p>
+            </div>
+
+            <div class="col-3">
+                <p class="row justify-content-center"><b>Di KETAHUI:</b></p>
+                <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
+                <p class="row justify-content-center"><b>PGS</b></p>
+            </div>
+
+
+            <div class="col-3">
+                <p class="row justify-content-center"><b>Di SETUJUI:</b></p>
+                <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
+                <p class="row justify-content-center"><b>GA HEAD</b></p>
+            </div>
+
+            <div class="content-end">
+                <p class="row justify-content-center"><b>Di SETUJUI:</b></p>
+                <p class="row justify-content-center"><b>APPROVED BY SYSTEM</b></p>
+                <p class="row justify-content-center"><b>HR HEAD</b></p>
+            </div>
+        </div>
+    @endif
 
 
 
@@ -263,8 +296,8 @@
 </div>
 <!-- ./wrapper -->
 
-{{-- <script type="text/javascript">
+<script type="text/javascript">
   window.addEventListener("load", window.print());
-</script> --}}
+</script>
 </body>
 </html>

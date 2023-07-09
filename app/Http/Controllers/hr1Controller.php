@@ -13,7 +13,7 @@ class hr1Controller extends Controller
      */
     public function index()
     {
-
+        return view('dashboard.uji.index');
     }
 
     /**

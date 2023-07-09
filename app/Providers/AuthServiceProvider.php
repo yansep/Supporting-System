@@ -25,16 +25,21 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
 
         $this->registerPolicies();
         Gate::define('ADMIN', function(User $users){
-            return $users->status === 'ADMIN';
+            return $users->role_id = '1';
+        });
+
+        Gate::define('FA', function(User $users){
+            return $users->role_id = '2';
         });
 
         Gate::define('PGS', function(User $users){
-            return $users->status === 'PGS';
+            return $users->role_id = '3';
         });
+
+
 
         Gate::define('HR', function(User $users){
             return $users->status === 'HR';
@@ -51,6 +56,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('CMA', function(User $users){
             return $users->status === 'CMA';
         });
+
         //
     }
 }
